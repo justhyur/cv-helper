@@ -40,9 +40,14 @@ export default function Home() {
           <div className="buttons">
             <Link className="button" href="/private-data">Manage private data</Link>
             <button 
+              className={`button`} 
+              onClick={()=>{bot();}}
+              >Update
+            </button>
+            <button 
               className={`button ${runtime ? 'red' : 'green'}`} 
-              onClick={()=>{setRuntime(curr=>!curr); bot();}}
-              >{runtime ? 'Stop Runtime' : 'Start Runtime'}
+              onClick={()=>{setRuntime(curr=>!curr);}}
+              >{runtime ? 'Stop Autoupdate' : 'Start Autoupdate'}
             </button>
           </div>
           <div className="bank-assets">
