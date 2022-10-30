@@ -2,7 +2,6 @@ import Head from 'next/head';
 import {useState, useEffect, useContext} from 'react';
 import { Context } from '../lib/Context';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 
 export default function PrivateData() {
