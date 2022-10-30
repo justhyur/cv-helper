@@ -22,7 +22,7 @@ export default function Home() {
 
       <main className="main">
         <h1 className="title">
-          Hyur's <b>CV Helper</b>
+          Hyur&apos;s <b>CV Helper</b>
         </h1>
         {!isLoading && <>
           <div className="buttons">
