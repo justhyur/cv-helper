@@ -16,8 +16,13 @@ a {
   box-sizing: border-box;
 }
 
+h1{
+  font-size: 2.5em;
+}
+
 $blue: hsl(240, 67%, 62%);
 $green: hsl(125, 67%, 62%);
+$yellow: hsl(46, 67%, 62%);
 $red: hsl(0, 67%, 62%);
 
 .container{
@@ -40,21 +45,27 @@ $red: hsl(0, 67%, 62%);
 
 .button{
   background-color: $blue;
-  padding: .75em 2em;
-  border-radius: 1em;
+  padding: .5em 1.5em;
+  border-radius: .5em;
   color: white;
   font-size: 1.25em;
   cursor: pointer;
   outline: none;
   border: none;
   &.red{background-color: $red;}
-  &.green{background-color: $green;}
+  &.green{background-color: $green; color: black;}
+  &.yellow{background-color: $yellow; color:black;}
+  &:disabled{
+    opacity: .5;
+    cursor: not-allowed;
+  }
 }
 .buttons{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
+  margin: 1rem 0;
 }
 
 .bank-assets{
@@ -65,5 +76,29 @@ $red: hsl(0, 67%, 62%);
   flex-wrap: wrap;
   .bank-asset{
     font-size: 1.25em;
+  }
+}
+
+.private-datas{
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .private-data{
+    h3{
+      text-align: center;
+      font-size: 2em;
+    }
+    .input{
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      input{
+        padding: .5em 1em;
+        font-size: 1.25rem;
+      }
+    }
   }
 }
