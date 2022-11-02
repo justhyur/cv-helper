@@ -17,7 +17,7 @@ a {
 }
 
 h1{
-  font-size: 2.5em;
+  font-size: 2em;
 }
 
 $blue: hsl(240, 67%, 62%);
@@ -48,7 +48,7 @@ $red: hsl(0, 67%, 62%);
   padding: .5em 1.5em;
   border-radius: .5em;
   color: white;
-  font-size: 1.25em;
+  font-size: 1em;
   cursor: pointer;
   outline: none;
   border: none;
@@ -75,7 +75,7 @@ $red: hsl(0, 67%, 62%);
   padding: 1em;
   flex-wrap: wrap;
   .bank-asset{
-    font-size: 1.25em;
+    font-size: 1em;
   }
 }
 
@@ -88,7 +88,7 @@ $red: hsl(0, 67%, 62%);
   .private-data{
     h3{
       text-align: center;
-      font-size: 2em;
+      font-size: 1.5em;
     }
     .input{
       display: flex;
@@ -97,7 +97,7 @@ $red: hsl(0, 67%, 62%);
       justify-content: center;
       input{
         padding: .5em 1em;
-        font-size: 1.25rem;
+        font-size: 1rem;
       }
     }
   }
