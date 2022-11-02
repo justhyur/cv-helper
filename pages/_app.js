@@ -1,5 +1,6 @@
 import { ContextProvider } from '/lib/Context';
 import { ToastContainer } from 'react-toastify';
+import Link from 'next/link';
 import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,9 +9,14 @@ function MyApp({ Component, pageProps }) {
   
 
   return(<>
+      <header>
+        <h1 className="title">
+          Hyur&apos;s <Link href="/"><b>CV Helper</b></Link>
+        </h1>
+      </header>
       <ContextProvider>
-        {/* <Navbar /> */}
         <Component {...pageProps} />
+      </ContextProvider>
         <ToastContainer
           position="top-right"
           autoClose={2500}
@@ -18,12 +24,8 @@ function MyApp({ Component, pageProps }) {
           newestOnTop={false}
           closeOnClick
           rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
           theme="light"
         />
-      </ContextProvider>
     </>
   ) 
 }
