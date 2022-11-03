@@ -1,8 +1,8 @@
-import { ContextProvider } from '/lib/Context';
 import { ToastContainer } from 'react-toastify';
 import Link from 'next/link';
 import '../styles/globals.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import { ContextProvider } from '/lib/Context';
 
 function MyApp({ Component, pageProps }) {
 

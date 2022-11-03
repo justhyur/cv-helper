@@ -25,7 +25,7 @@ export default function Home() {
         <div className="buttons">
           <Link className="button" href="/banks">Online banking</Link>
           <Link className="button" href="/prime">Prime Meetings</Link>
-          <Link className="button yellow" href="/private-data">Manage private data</Link>
+          <Link className="button grey" href="/private-data">Manage private data</Link>
         </div>
       </main>
 

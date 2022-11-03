@@ -8,13 +8,11 @@ import moment from 'moment';
 
 export default function Banks() {
 
-  const {
-    meetings, loadMeetings, meetingsLoaded
-  } = useContext(Context);
+  const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(()=>{
-    console.log(meetings)
-  },[meetings]);
+  const {
+    meetings, loadMeetings, meetingsLoading, lastMeetingUpdate
+  } = useContext(Context);
 
   const stateColor = (state) => {
     switch(state.toLowerCase()){
@@ -38,6 +36,14 @@ export default function Banks() {
     }
   }
 
+  useEffect(()=>{
+    setIsMounted(true);
+    const secondsAfterLastUpdate = (Date.now() - lastMeetingUpdate) / 1000;
+    if(secondsAfterLastUpdate > (60 * 5)){
+      loadMeetings();
+    }
+  },[]);
+
   return (
     <div className="container">
       <Head>
@@ -49,12 +55,14 @@ export default function Banks() {
       <main className="main">
         <div className="sub-header">
           <h2>Prime meetings</h2>
+          {isMounted && <div className="text-center"><b>Last update:</b> {moment(lastMeetingUpdate).format("DD/MM/YYYY HH:mm")}</div>}
         </div>
           <div className="buttons">
             <button className="button">New Meeting</button>
-            <button className="button yellow" disabled={!meetingsLoaded} onClick={loadMeetings}>Refresh</button>
+            <button className="button yellow" disabled={meetingsLoading} onClick={loadMeetings}>Refresh</button>
+            <Link className="button grey" href="/private-data?last=prime">Manage private data</Link>
           </div>
-          {meetings.length > 0 ?
+          {isMounted && meetings.length > 0 ?
             <div className="meetings">
               <div className='tr'>
                 <div className="th">Branch</div>

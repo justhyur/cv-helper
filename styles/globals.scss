@@ -34,6 +34,7 @@ $blue: hsl(240, 67%, 62%);
 $green: hsl(125, 67%, 62%);
 $yellow: hsl(46, 67%, 62%);
 $red: hsl(0, 67%, 62%);
+$grey: hsl(0, 0%, 62%);
 
 .sub-header{
   margin-bottom: 2em;
@@ -57,6 +58,10 @@ $red: hsl(0, 67%, 62%);
   }
 }
 
+.text-center{
+  text-align: center;
+}
+
 .button{
   background-color: $blue;
   padding: .5em 1.5em;
@@ -69,6 +74,7 @@ $red: hsl(0, 67%, 62%);
   &.red{background-color: $red;}
   &.green{background-color: $green; color: black;}
   &.yellow{background-color: $yellow; color:black;}
+  &.grey{background-color: $grey;}
   &:disabled{
     opacity: .5;
     cursor: not-allowed;
@@ -90,6 +96,10 @@ $red: hsl(0, 67%, 62%);
   flex-wrap: wrap;
   .bank-asset{
     font-size: 1em;
+    text-align: center;
+    &.total{
+      font-weight: 500;
+    }
   }
 }
 
