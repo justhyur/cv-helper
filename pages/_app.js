@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   return(<>
       <header>
         <h1 className="title">
-          Hyur&apos;s <Link href="/"><b>CV Helper</b></Link>
+          <Link href="/"><b>CV Helper</b></Link>
         </h1>
       </header>
       <ContextProvider>
