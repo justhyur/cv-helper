@@ -17,7 +17,8 @@ export default function BankSettings() {
   const {
     isLoading, toastOptions,
     bankSettings, setBankSettings,
-    primeSettings, setPrimeSettings
+    primeSettings, setPrimeSettings,
+    updateRates, updatingRates
   } = useContext(Context);
 
   const {pathname} = useRouter();
@@ -41,7 +42,7 @@ export default function BankSettings() {
   return (
     <div className="container">
       <Head>
-        <title>CV Helper - {Type} Settings</title>
+        <title>CV Helper - {JSON.stringify(Type).replaceAll('"','')} Settings</title>
         <meta name="description" content="Created by Hyur" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -116,6 +117,11 @@ export default function BankSettings() {
             ))}
           </>}
         </div>
+        {type === 'banks' &&
+            <div className="buttons">
+                <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update currency conversion rates</button>
+            </div>
+        }
         <div className="buttons">
           <button className="button green" onClick={()=>{
               setSettings(localSettings);
