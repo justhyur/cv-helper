@@ -47,7 +47,11 @@ export default function PrivateData() {
             {localData.map( (data, d) => (
               <div className="private-data-group" key={`data_${d}`}>
                 <label className="enabler">
-                  <span className="title">Enable {data.name.toUpperCase()} {data.type === 'bank' && '(Bank)'}</span>
+                  {data.type === 'currency' ?
+                    <span className="title">Show {data.name.toUpperCase()}</span>
+                  :
+                    <span className="title">Enable {data.name.toUpperCase()} {data.type === 'bank' && '(Bank)'}</span>
+                  }
                   <Toggle
                     checked={data.enabled}
                     onChange={(e)=>{
@@ -59,7 +63,7 @@ export default function PrivateData() {
                     }}
                   />
                 </label>
-                {data.enabled &&
+                {data.enabled && data.type !== 'currency' &&
                   <div className="private-data">
                     <h2>{data.name.toUpperCase()}</h2>
                     {data.form.map((section, s) => (
