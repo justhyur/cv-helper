@@ -144,7 +144,7 @@ export default function Bank() {
                               <div className={`th col${i}`} key={`${key}${i}`}>{key}</div>
                             )})}
                         </div>
-                        {banksData[id].movements.sort((a,b) => moment(a.date, "DD/MM/YYYY") > moment(b.date, "DD/MM/YYYY") ? -1 : 1).map( (m, i) => {
+                        {banksData[id].movements.map( (m, i) => {
                           const today = moment(Date.now()).format('DD/MM/YYYY');
                           return (
                             <div className={`tr row${i} ${m.date === today? 'today' : ''}`} key={`movement${i}`}>
