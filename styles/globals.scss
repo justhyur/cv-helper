@@ -124,6 +124,10 @@ header{
   .bank-asset{
     font-size: 1em;
     text-align: center;
+    &.total{
+      order: -1;
+      width: 100%;
+    }
   }
   .bank-link{
     border: 3px solid black;
@@ -148,6 +152,13 @@ header{
         h2{color: white;}
         color: $caixa;
         background-color: $caixa;
+      }
+    }
+    &.total{
+      &:hover{
+        h2{color: white;}
+        color: black;
+        background-color: black;
       }
     }
     .date{
@@ -279,7 +290,11 @@ header{
       .tr{
         font-size: .75em;
         display: grid;
+        align-items: center;
         grid-template-columns: minmax(80px, 15%) auto minmax(90px, 15%);
+        &.row-total{
+          grid-template-columns: minmax(80px, 15%) auto minmax(90px, 15%) 50px;
+        }
         border-bottom: 1px solid lightgray;
         padding: .25rem .5rem;
         .th, .td{
@@ -304,6 +319,23 @@ header{
               color: $bcn;
             }
           }
+        }
+        .col3{
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          margin-left: .5rem;
+          border-radius: 1rem;
+          padding: .25rem .5rem;
+          &.bcn{
+            background-color: $bcn;
+          }
+          &.caixa{
+            background-color: $caixa;
+          }
+          cursor: pointer;
         }
         &.today{
           background-color: lightgoldenrodyellow;

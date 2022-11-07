@@ -83,22 +83,10 @@ export default function Banks() {
               </button>
               <Link className="button grey" href="/banks/settings">Settings</Link>
             </div>
-            {enabledBanks().length > 1 &&
-              <div className="bank-assets">
-                <div className="bank-asset total">
-                    <h3 className="name">TOTAL ASSETS</h3>
-                    <div className="ordered-assets">
-                      {activeCurrencies.map(code => (
-                        <div key={code} className={`asset ${code === preferredCurrency? 'primary' : 'secondary'}`}>{convert(totalAssets, preferredCurrency, code, true).substring(1)}</div>
-                      ))}
-                    </div>
-                </div>
-              </div>
-            }
             <div className="bank-assets">
               {Object.keys(banksData).map( (key, i) => (
-                  <div className="bank-asset" key={`${key}${i}`}>
-                    {banksCredentials[key].enabled &&
+                  <div className={`bank-asset ${key}`} key={`${key}${i}`}>
+                    {((key === 'total' && enabledBanks().length > 1) || banksCredentials[key]?.enabled) &&
                       <Link className={`bank-link ${key}`} href={`/banks/${key}`}>
                         <div className="date">
                           {banksData[key].date ? moment(banksData[key].date).format("DD/MM/YYYY HH:mm") : '...'}

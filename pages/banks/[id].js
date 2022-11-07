@@ -23,7 +23,7 @@ export default function Bank() {
   useEffect(()=>{
     if(router.isReady){
       const thisId = router.query.id;
-      if(bankIds.includes(thisId)){
+      if(bankIds.includes(thisId) || thisId === 'total'){
         setId(thisId)
       }else{
         router.push('/banks');
@@ -33,14 +33,25 @@ export default function Bank() {
 
   useEffect(()=>{
     if(id){
-      if(!banksCredentials[id].enabled){
+      if(!banksCredentials[id]?.enabled && id !== 'total'){
         router.push('/banks');
         return;
       }
       setIsMounted(true);
-      const secondsAfterLastUpdate = (Date.now() - banksData[id].date) / 1000;
-      if( !banksLoading[id] && (!banksData[id].date || secondsAfterLastUpdate > (60 * 5)) ){
-        loadBanksData([id]);
+      if(id === 'total'){
+        Object.keys(banksData).forEach(bankName => {
+          if(bankName !== 'total'){
+            const secondsAfterLastUpdate = (Date.now() - banksData[bankName].date) / 1000;
+            if( !banksLoading[bankName] && (!banksData[bankName].date || secondsAfterLastUpdate > (60 * 5)) ){
+              loadBanksData([bankName]);
+            }
+          }
+        });
+      }else{
+        const secondsAfterLastUpdate = (Date.now() - banksData[id].date) / 1000;
+        if( !banksLoading[id] && (!banksData[id].date || secondsAfterLastUpdate > (60 * 5)) ){
+          loadBanksData([id]);
+        }
       }
     }
   },[id]);
@@ -89,10 +100,10 @@ export default function Bank() {
         {!isLoading && isMounted && <>
             <div className="buttons">
               <button 
-                disabled={banksLoading[id]}
+                disabled={id === 'total'? (banksLoading.bcn && banksLoading.caixa) : banksLoading[id]}
                 className={`button yellow`} 
-                onClick={()=>{loadBanksData([id])}}
-                >Refresh
+                onClick={()=>{loadBanksData(id === 'total' ? ['bcn', 'caixa'] : [id])}}
+                >Refresh {id === 'total' && 'All'}
               </button>
               <Link className="button grey" href={`/banks/settings`}>Settings</Link>
             </div>
@@ -100,10 +111,12 @@ export default function Bank() {
               <h2>Loading data...</h2> 
             :
               <div className={`bank-data ${id}`}>
+                {id !== 'total' && 
                 <section>
                   <h3>Account number</h3>
                   <b className="content">{banksData[id].accountNumber}</b>
                 </section>
+                }
                 {(banksData[id].accounting || banksData[id].available) &&
                   <section>
                     <h3>Account Balances</h3>
@@ -138,7 +151,7 @@ export default function Bank() {
                       <div className="content">No movements</div>
                     :
                       <div className="movements">
-                        <div className="tr head">
+                        <div className={`tr row-${id} head`}>
                           {Object.keys(banksData[id].movements[0]).map( (key, i) => {
                             return (
                               <div className={`th col${i}`} key={`${key}${i}`}>{key}</div>
@@ -147,7 +160,7 @@ export default function Bank() {
                         {banksData[id].movements.map( (m, i) => {
                           const today = moment(Date.now()).format('DD/MM/YYYY');
                           return (
-                            <div className={`tr row${i} ${m.date === today? 'today' : ''}`} key={`movement${i}`}>
+                            <div className={`tr row-${id} ${m.date === today? 'today' : ''}`} key={`movement${i}`}>
                               <div className={`td col0`}>{m.date}</div>
                               <div className={`td col1`}>{m.description}</div>
                               <div className={`td col2 ${m.amount?.value > 0? 'pos' : 'neg'}`}>
@@ -155,10 +168,11 @@ export default function Bank() {
                                   <div className="ordered-assets">
                                     {activeCurrencies.map(code => (
                                       <div key={code} className={`asset ${code === preferredCurrency? 'primary' : 'secondary'}`}>{convert(m.amount.value, m.amount.currency, code, true)}</div>
-                                    ))}
+                                      ))}
                                   </div>
                                 }
                               </div>
+                              {id === 'total' && <Link href={`/banks/${m.origin}`} onClick={()=>{setId(m.origin)}} className={`td col3 ${m.origin}`}>{m.origin.toUpperCase()}</Link>}
                             </div>
                         )})}
                       </div>
