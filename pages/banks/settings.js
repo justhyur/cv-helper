@@ -18,7 +18,6 @@ export default function BankSettings() {
     isLoading, toastOptions,
     bankSettings, setBankSettings,
     primeSettings, setPrimeSettings,
-    updateRates, updatingRates
   } = useContext(Context);
 
   const {pathname} = useRouter();
@@ -117,11 +116,11 @@ export default function BankSettings() {
             ))}
           </>}
         </div>
-        {type === 'banks' &&
+        {/* {type === 'banks' &&
             <div className="buttons">
                 <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update currency conversion rates</button>
             </div>
-        }
+        } */}
         <div className="buttons">
           <button className="button green" onClick={()=>{
               setSettings(localSettings);
