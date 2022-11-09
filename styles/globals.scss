@@ -140,8 +140,8 @@ header{
       h2{color: $bcn;}
       border-color: $bcn;
       &:hover{
-        h2{color: white;}
-        color: $bcn;
+        color: $bcn !important;
+        h2{color: white !important;}
         background-color: $bcn;
       }
     }
@@ -149,8 +149,8 @@ header{
       h2{color: $caixa;}
       border-color: $caixa;
       &:hover{
-        h2{color: white;}
-        color: $caixa;
+        h2{color: white !important;}
+        color: $caixa !important;
         background-color: $caixa;
       }
     }
