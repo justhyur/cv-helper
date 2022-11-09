@@ -49,6 +49,7 @@ export default function Bank() {
         });
       }else{
         const secondsAfterLastUpdate = (Date.now() - banksData[id].date) / 1000;
+        console.log(banksLoading[id])
         if( !banksLoading[id] && (!banksData[id].date || secondsAfterLastUpdate > (60 * 5)) ){
           loadBanksData([id]);
         }
