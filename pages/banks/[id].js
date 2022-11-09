@@ -85,7 +85,7 @@ export default function Bank() {
   }
 
   if(id) return (
-    <div className="container">
+    <div className="my-container">
       <Head>
         <title>CV Helper - {id.toUpperCase()} Online banking</title>
         <meta name="description" content="Created by Hyur" />

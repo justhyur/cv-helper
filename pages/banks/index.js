@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {useState, useEffect, useContext} from 'react';
-import { Context } from '../lib/Context';
+import { Context } from '/lib/Context';
 import Link from 'next/link';
 import moment from 'moment';
 import Image from 'next/image';
@@ -53,7 +53,7 @@ export default function Banks() {
   },[banksData])
 
   return (
-    <div className="container">
+    <div className="my-container">
       <Head>
         <title>CV Helper - Online banking</title>
         <meta name="description" content="Created by Hyur" />

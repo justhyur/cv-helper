@@ -14,7 +14,7 @@ export default function Home() {
   } = useContext(Context);
 
   return (
-    <div className="container">
+    <div className="my-container">
       <Head>
         <title>CV Helper</title>
         <meta name="description" content="Created by Hyur" />
@@ -24,7 +24,7 @@ export default function Home() {
       <main className="main">
         <div className="buttons">
           <Link className="button" href="/banks">Online banking</Link>
-          {/* <Link className="button" href="/prime">Prime Meetings</Link> */}
+          <Link className="button" href="/prime">Prime Meetings</Link>
         </div>
       </main>
 
