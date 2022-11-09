@@ -16,10 +16,13 @@ export default function Prime() {
   const {
     isLoading,
     meetings, loadMeetings, meetingsLoading, lastMeetingUpdate,
-    primeData, primeSettings, branchCodes, bookMeetings, isBooking, toastOptions,
+    primeSettings, branchCodes, bookMeetings, isBooking, toastOptions,
     primeLogs, setPrimeLogs
   } = useContext(Context);
 
+  const primeData = primeSettings.filter(a=>a.name.toLowerCase()==='prime')[0];
+  const userName = primeData.form.filter(i => i.name === 'username')[0].value;
+  const password = primeData.form.filter(i => i.name === 'password')[0].value;
   const declinedActive = primeSettings.filter(a=>a.name.toLowerCase()==='declined')[0].enabled;
   const pendingActive = primeSettings.filter(a=>a.name.toLowerCase()==='pending')[0].enabled;
 
@@ -49,7 +52,7 @@ export default function Prime() {
     setIsMounted(true);
     const secondsAfterLastUpdate = (Date.now() - lastMeetingUpdate) / 1000;
     if(primeData.enabled && secondsAfterLastUpdate > (60 * 5)){
-      loadMeetings();
+      loadMeetings(userName, password);
     }
     fixPickedTime();
   },[]);
@@ -76,7 +79,8 @@ export default function Prime() {
     const timeStamp = today.getTime();
     const hours = parseInt(moment(timeStamp).format("HH"));
     const minutes = parseInt(moment(timeStamp).format("mm"));
-    return hours > 20 || (hours === 20 && minutes > 0) ? moment(`${moment(timeStamp).add(1, "days").format("DD/MM/YYYY")} 07:00`, "DD/MM/YYYY HH:mm").toDate() : today; 
+    const tomorrow = moment(timeStamp).add(1, "days");
+    return hours > 20 || (hours === 20 && minutes > 0) ? moment(`${tomorrow.format("DD/MM/YYYY")} 07:00`, "DD/MM/YYYY HH:mm").toDate() : today; 
   }
 
   const [bookForm, setBookForm] = useState({
@@ -92,11 +96,8 @@ export default function Prime() {
     setBookForm(curr=>({...curr, [key]: value}));
   }
 
-  const [pickedDate, setPickedDate] = useState(today);
-  useEffect(()=>{
-    console.log(pickedDate)
-  },[pickedDate]);
-  const [pickedTime, setPickedTime] = useState(moment(today).format("HH:mm"));
+  const [pickedDate, setPickedDate] = useState(getMinDate());
+  const [pickedTime, setPickedTime] = useState(moment(getMinDate()).format("HH:mm"));
   useEffect(()=>{
     const dateString = `${moment(pickedDate.getTime()).format("DD/MM/YYYY")} ${pickedTime}`;
     const timeStamp = moment(dateString, "DD/MM/YYYY HH:mm").toDate().getTime();
@@ -209,7 +210,7 @@ export default function Prime() {
               <TimePicker 
                 format={"HH:mm"} 
                 disableClock={true}
-                minDate={today}
+                minDate={'07:00'}
                 value={pickedTime}
                 onChange={(e)=>{setPickedTime(e)}}
                 onClockOpen={()=>{setIsFormEditing(true)}}
@@ -291,7 +292,6 @@ export default function Prime() {
                     const dateA = moment(moment(e.getTime()).format("DD/MM/YYYY"), "DD/MM/YYYY");
                     const dateB = moment(moment(pickedDate.getTime()).format("DD/MM/YYYY"), "DD/MM/YYYY");
                     const diff = dateA.diff(dateB, "days") + 1;
-                    console.log(diff)
                     changeFormValue('numDays', diff.toString());
                   }}
                   onCalendarOpen={()=>{setIsFormEditing(true)}}
@@ -347,7 +347,7 @@ export default function Prime() {
       <ModalFooter>
         <Button disabled={isBooking || isFormEditing} color="primary" onClick={()=>{
           const [numHours, numMinutes] = bookForm.numMinutes.split(":");
-          bookMeetings({
+          bookMeetings(userName, password, {
             ...bookForm, 
             numMinutes: parseInt(numHours*60) + parseInt(numMinutes),
             skipWeekends: bookForm.numDays.toString() === '1'? false : bookForm.skipWeekends,
@@ -403,7 +403,7 @@ export default function Prime() {
           :<>
             <div className="buttons">
               <button className="button" onClick={toggleModal}>New Meeting</button>
-              <button className="button yellow" disabled={meetingsLoading} onClick={loadMeetings}>Refresh</button>
+              <button className="button yellow" disabled={meetingsLoading} onClick={()=>{loadMeetings(userName, password)}}>Refresh</button>
               <Link className="button grey" href="/prime/settings">Settings</Link>
             </div>
             {meetings.length > 0 ?
