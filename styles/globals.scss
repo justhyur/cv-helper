@@ -72,14 +72,14 @@ header{
   background-color: $blue;
   padding: .5em 1.5em;
   border-radius: .5em;
-  color: white;
+  color: white !important;
   font-size: 1em;
   cursor: pointer;
   outline: none;
   border: none;
   &.red{background-color: $red;}
-  &.green{background-color: $green; color: black;}
-  &.yellow{background-color: $yellow; color:black;}
+  &.green{background-color: $green; color: black !important;}
+  &.yellow{background-color: $yellow; color:black !important;}
   &.grey{background-color: $grey;}
   &:disabled{
     opacity: .5;
