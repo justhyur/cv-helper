@@ -187,7 +187,7 @@ export default function Prime() {
               onChange={(e)=>{changeFormValue('branchCode', e.target.value)}}
             >
               {branchCodes.map(({name, value})=>(
-                <option value={value}>{name}</option>
+                <option key={name} value={value}>{name}</option>
               ))}
             </Input>
           </FormGroup>
@@ -366,8 +366,8 @@ export default function Prime() {
       <ModalHeader toggle={()=>{setPrimeLogs(null)}}>Booking logs</ModalHeader>
       <ModalBody>
         <div className="logs">
-          {primeLogs && primeLogs.map(log => (
-            <div className={`log ${log.booked ? 'booked' : 'error'}`}>
+          {primeLogs && primeLogs.map( (log, i) => (
+            <div key={`log${i}`} className={`log ${log.booked ? 'booked' : 'error'}`}>
               <span className="time">{moment(log.date).format("DD/MM/YYYY | HH:mm - ")}</span><span className="message">{log.message}</span>
             </div>
           ))}
