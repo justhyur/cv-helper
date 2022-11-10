@@ -398,3 +398,31 @@ header{
     }
   }
 }
+
+.currency-rates{
+  text-align: center;
+  padding: .5rem 0;
+  .buttons{
+    margin: .5rem 0;
+  }
+  .last-update{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+  }
+  .convertion-rates{
+    width: 200px;
+    max-width: 100%;
+    padding: .5rem 1rem;
+    margin: auto;
+    .rate{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      .text{
+        font-weight: 500;
+      }
+    }
+  }
+}

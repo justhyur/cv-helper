@@ -2,7 +2,7 @@ import Head from 'next/head';
 import {useState, useEffect, useContext} from 'react';
 import { Context } from '/lib/Context';
 import { ToastContainer, toast } from 'react-toastify';
-import { useRouter } from "next/router";
+import moment from 'moment';
 import Link from 'next/link';
 import Toggle from 'react-toggle'
 import "react-toggle/style.css" // for ES6 modules
@@ -16,6 +16,8 @@ export default function Settings({type, settings, setSettings}) {
 
   const {
     isLoading, toastOptions,
+    lastRatesUpdate, rates,
+    updateRates, updatingRates
   } = useContext(Context);
 
   const Type = type.charAt(0).toUpperCase()+type.substring(1);
@@ -107,11 +109,22 @@ export default function Settings({type, settings, setSettings}) {
             ))}
           </>}
         </div>
-        {/* {type === 'banks' &&
-            <div className="buttons">
-                <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update currency conversion rates</button>
-            </div>
-        } */}
+        {type === 'banks' && lastRatesUpdate && 
+          <div className="currency-rates">
+              <h3>Currency Rates</h3>
+              <div className="convertion-rates">
+                {Object.entries(rates).map(([text, value])=>(value > 1 && 
+                  <div key={text} className="rate">
+                    <span className="text">{text.substring(0, 3)}/{text.substring(3, 6)}</span> {Math.round(value*10000)/10000}
+                  </div>
+                ))}
+              </div>
+              <div className="last-update"><strong>Last update</strong> {moment(lastRatesUpdate).format("DD/MM/YYYY HH:mm")}</div>
+              <div className="buttons">
+                  <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update Rates</button>
+              </div>
+          </div>
+        }
         <div className="buttons">
           <button className="button green" onClick={()=>{
               setSettings(localSettings);

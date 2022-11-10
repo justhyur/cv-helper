@@ -13,7 +13,7 @@ export default function Banks() {
     banksCredentials, loadBanksData,
     isLoading, banksLoading,
     banksData, activeCurrencies,
-    preferredCurrency, convert, format,
+    preferredCurrency, convert,
   } = useContext(Context);
 
   const banksDisabled = () => {
