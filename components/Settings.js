@@ -109,9 +109,9 @@ export default function Settings({type, settings, setSettings}) {
             ))}
           </>}
         </div>
-        {type === 'banks' && lastRatesUpdate && 
-          <div className="currency-rates">
-              <h3>Currency Rates</h3>
+        <div className="currency-rates">
+          <h3>Currency Rates</h3>
+          {type === 'banks' && lastRatesUpdate && <>
               <div className="convertion-rates">
                 {Object.entries(rates).map(([text, value])=>(value > 1 && 
                   <div key={text} className="rate">
@@ -120,11 +120,11 @@ export default function Settings({type, settings, setSettings}) {
                 ))}
               </div>
               <div className="last-update"><strong>Last update</strong> {moment(lastRatesUpdate).format("DD/MM/YYYY HH:mm")}</div>
-              <div className="buttons">
-                  <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update Rates</button>
-              </div>
+          </>}
+          <div className="buttons">
+              <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update Rates</button>
           </div>
-        }
+      </div>
         <div className="buttons">
           <button className="button green" onClick={()=>{
               setSettings(localSettings);
