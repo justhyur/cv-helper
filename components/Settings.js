@@ -119,7 +119,7 @@ export default function Settings({type, settings, setSettings}) {
                   </div>
                 ))}
               </div>
-              {lastRatesUpdate && <div className="last-update"><strong>Last update</strong> {moment(lastRatesUpdate).format("DD/MM/YYYY HH:mm")}</div>}
+              {lastRatesUpdate ? <div className="last-update"><strong>Last update</strong> {moment(lastRatesUpdate).format("DD/MM/YYYY HH:mm")}</div> : ''}
           </>}
           <div className="buttons">
               <button disabled={updatingRates} className="button" style={{fontSize: ".75em", maxWidth: "150px"}} onClick={updateRates}>Update Rates</button>
