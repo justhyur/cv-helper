@@ -368,7 +368,24 @@ export default function Prime() {
         <div className="logs">
           {primeLogs && primeLogs.map( (log, i) => (
             <div key={`log${i}`} className={`log ${log.booked ? 'booked' : 'error'}`}>
-              <span className="time">{moment(log.date).format("DD/MM/YYYY | HH:mm - ")}</span><span className="message">{log.message}</span>
+              <span className="time">{moment(log.date).format("DD/MM/YYYY | HH:mm - ")}</span><span className="message">
+                {log.message}<br></br>
+                {log.alreadyBookedSlots?.length > 0 && log.alreadyBookedSlots.map((slot, ss) => {
+                  let thisOne = slot.split(' - ');
+                  const thisTime = [moment(`01/01/2000 ${thisOne[0]}`, "DD/MM/YYYY HH:mm").toDate().getTime(), moment(`01/01/2000 ${thisOne[1]}`, "DD/MM/YYYY HH:mm").toDate().getTime()];
+                  let prevOne = log.alreadyBookedSlots[ss-1]?.split(' - ');
+                  const prevTime = prevOne && [moment(`01/01/2000 ${prevOne[0]}`, "DD/MM/YYYY HH:mm").toDate().getTime(), moment(`01/01/2000 ${prevOne[1]}`, "DD/MM/YYYY HH:mm").toDate().getTime()];
+                  let nextOne = log.alreadyBookedSlots[ss+1]?.split(' - ');
+                  const nextTime = nextOne && [moment(`01/01/2000 ${nextOne[0]}`, "DD/MM/YYYY HH:mm").toDate().getTime(), moment(`01/01/2000 ${nextOne[1]}`, "DD/MM/YYYY HH:mm").toDate().getTime()];
+                  return(
+                    <span key={`log${i}slot${ss}`}>
+                      {(!prevTime || thisTime[0] !== prevTime[1] ) && `From ${thisOne[0]}`}
+                      {(!nextTime || thisTime[1] !== nextTime[0] ) && ` to ${thisOne[1]} is already booked.`}
+                    </span>  
+                  )
+                })
+                }
+              </span>
             </div>
           ))}
         </div>
