@@ -438,7 +438,7 @@ export default function Prime() {
             <div className="buttons">
               <button className="button" onClick={toggleModal}>New Meeting</button>
               <button className="button yellow" disabled={meetingsLoading} onClick={()=>{loadMeetings(userName, password)}}>Refresh</button>
-              <button className="button green" disabled={!futureMeetings || (futureMeetings && futureMeetings.filter(m=>m.state === 'Pending').length === 0)} onClick={()=>{acceptBookings(userName, password, meetings.length)}}>Accept meetings</button>
+              <button className="button green" disabled={meetingsLoading || !futureMeetings || (futureMeetings && futureMeetings.filter(m=>m.state === 'Pending').length === 0)} onClick={()=>{acceptBookings(userName, password, meetings.length)}}>Accept meetings</button>
               <Link className="button grey" href="/prime/settings">Settings</Link>
             </div>
             {futureMeetings.length > 0 ?
