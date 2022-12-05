@@ -16,7 +16,7 @@ export default function Prime() {
   const {
     isLoading,
     meetings, loadMeetings, meetingsLoading, lastMeetingUpdate,
-    primeSettings, branchCodes, bookMeetings, isBooking, toastOptions,
+    primeSettings, branchCodes, bookMeetings, acceptBookings, isBooking, toastOptions,
     primeLogs, setPrimeLogs
   } = useContext(Context);
 
@@ -167,8 +167,25 @@ export default function Prime() {
     const hours = Math.floor(totMins/60);
     const minutes = ( (totMins/60) - hours) * 60;
     return `${hours}:${minutes}`;
-    
   }
+
+  const [futureMeetings, setFutureMeetings] = useState([]);7
+  useEffect(()=>{
+    const fMeetings = [];
+    meetings.sort((a,b)=>( dateAorB(a, b)? -1 : 1)).forEach( (m) => {
+      const startTime = dateAndTime(m);
+      const endTime = moment(startTime).add(m.duration.split(' min')[0], 'minutes');
+      const today = moment(new Date());
+      if(
+        endTime >= today && 
+        (declinedActive || (!declinedActive && m.state.toLowerCase()!=='declined') ) &&
+        (pendingActive || (!pendingActive && m.state.toLowerCase()!=='pending') )
+      ){
+        fMeetings.push(m);
+      }
+    });
+    setFutureMeetings(fMeetings);
+  },[meetings]);
 
   return (<>
     {/* FORM MODAL */}
@@ -421,9 +438,10 @@ export default function Prime() {
             <div className="buttons">
               <button className="button" onClick={toggleModal}>New Meeting</button>
               <button className="button yellow" disabled={meetingsLoading} onClick={()=>{loadMeetings(userName, password)}}>Refresh</button>
+              <button className="button green" disabled={!futureMeetings || (futureMeetings && futureMeetings.filter(m=>m.state === 'Pending').length === 0)} onClick={()=>{acceptBookings(userName, password, meetings.length)}}>Accept meetings</button>
               <Link className="button grey" href="/prime/settings">Settings</Link>
             </div>
-            {meetings.length > 0 ?
+            {futureMeetings.length > 0 ?
               <div className="meetings">
                 <div className='tr'>
                   <div className="th">Branch</div>
@@ -432,29 +450,23 @@ export default function Prime() {
                   <div className="th">Duration</div>
                   <div className="th">State</div>
                 </div>
-                {meetings.sort((a,b)=>( dateAorB(a, b)? -1 : 1)).map( (m, i) => {
+                {futureMeetings.map( (m, i) => {
                   const startTime = dateAndTime(m);
                   const endTime = moment(startTime).add(m.duration.split(' min')[0], 'minutes');
                   const today = moment(new Date());
                   const isToday = today.format('DD/MM/YYYY') === startTime.format('DD/MM/YYYY');
-                  if(
-                    endTime >= today && 
-                    (declinedActive || (!declinedActive && m.state.toLowerCase()!=='declined') ) &&
-                    (pendingActive || (!pendingActive && m.state.toLowerCase()!=='pending') )
-                  ){
-                    return(
-                      <div className={`tr ${isToday? 'today' : ''}`} key={`meeting${i}`}>
-                        <div className="td branch">{m.branch}</div>
-                        <div className="td">{moment(m.date).format('DD/MM/YYYY')}</div>
-                        <div className="td">{startTime.format('HH:mm')} - {endTime.format('HH:mm')}</div>
-                        <div className="td">{m.duration}</div>
-                        <div className={`td state ${stateColor(m.state)}`}>
-                          {stateIcon(m.state)}
-                          <span className="state-text">{m.state}</span>
-                        </div>
+                  return(
+                    <div className={`tr ${isToday? 'today' : ''}`} key={`meeting${i}`}>
+                      <div className="td branch">{m.branch}</div>
+                      <div className="td">{moment(m.date).format('DD/MM/YYYY')}</div>
+                      <div className="td">{startTime.format('HH:mm')} - {endTime.format('HH:mm')}</div>
+                      <div className="td">{m.duration}</div>
+                      <div className={`td state ${stateColor(m.state)}`}>
+                        {stateIcon(m.state)}
+                        <span className="state-text">{m.state}</span>
                       </div>
-                    )
-                  }
+                    </div>
+                  )
                 })}
               </div>
             :
